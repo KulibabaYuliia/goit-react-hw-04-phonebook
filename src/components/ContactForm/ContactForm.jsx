@@ -1,5 +1,4 @@
 import { FormWrap, StyledField } from './ContactForm.styled';
-import React, { Component } from 'react';
 import { Formik, ErrorMessage } from 'formik';
 import * as yup from 'yup';
 
@@ -17,34 +16,31 @@ let userSchema = yup.object().shape({
     .required(),
 });
 
-export class ContactForm extends Component {
-  submitHandler = (values, action) => {
-    console.log(values);
-    this.props.handleAddContact(values);
+export const ContactForm = ({ handleAddContact }) => {
+  const submitHandler = (values, action) => {
+    handleAddContact(values);
     action.resetForm();
   };
 
-  render() {
-    return (
-      <Formik
-        initialValues={{ name: '', number: '' }}
-        validationSchema={userSchema}
-        onSubmit={this.submitHandler}
-      >
-        <FormWrap>
-          <label>
-            Name
-            <StyledField type="text" name="name" />
-            <ErrorMessage name="name" component="div" />
-          </label>
-          <label>
-            Number
-            <StyledField type="tel" name="number" placeholder="123-45-67" />
-            <ErrorMessage name="number" component="div" />
-          </label>
-          <button type="submit">Add contact</button>
-        </FormWrap>
-      </Formik>
-    );
-  }
-}
+  return (
+    <Formik
+      initialValues={{ name: '', number: '' }}
+      validationSchema={userSchema}
+      onSubmit={submitHandler}
+    >
+      <FormWrap>
+        <label>
+          Name
+          <StyledField type="text" name="name" />
+          <ErrorMessage name="name" component="div" />
+        </label>
+        <label>
+          Number
+          <StyledField type="tel" name="number" placeholder="123-45-67" />
+          <ErrorMessage name="number" component="div" />
+        </label>
+        <button type="submit">Add contact</button>
+      </FormWrap>
+    </Formik>
+  );
+};
